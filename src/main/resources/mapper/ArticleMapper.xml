@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Ajar.Blog.Dao.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.Ajar.Blog.Pojo.Article" >
+    <constructor >
+      <idArg column="article_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="article_user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="article_title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="article_content" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="article_view_count" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="article_comment_count" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="article_create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="article_update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="article_summary" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="article_category" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="article_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    article_id, article_user_id, article_title, article_content, article_view_count, 
+    article_comment_count, article_create_time, article_update_time, article_summary, 
+    article_category, article_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.Ajar.Blog.Pojo.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from article
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.Ajar.Blog.Pojo.ArticleExample" >
+    delete from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.Ajar.Blog.Pojo.Article" >
+    insert into article (article_id, article_user_id, article_title, 
+      article_content, article_view_count, article_comment_count, 
+      article_create_time, article_update_time, 
+      article_summary, article_category, article_status
+      )
+    values (#{articleId,jdbcType=INTEGER}, #{articleUserId,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR}, 
+      #{articleContent,jdbcType=VARCHAR}, #{articleViewCount,jdbcType=INTEGER}, #{articleCommentCount,jdbcType=INTEGER}, 
+      #{articleCreateTime,jdbcType=TIMESTAMP}, #{articleUpdateTime,jdbcType=TIMESTAMP}, 
+      #{articleSummary,jdbcType=VARCHAR}, #{articleCategory,jdbcType=VARCHAR}, #{articleStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.Ajar.Blog.Pojo.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="articleUserId != null" >
+        article_user_id,
+      </if>
+      <if test="articleTitle != null" >
+        article_title,
+      </if>
+      <if test="articleContent != null" >
+        article_content,
+      </if>
+      <if test="articleViewCount != null" >
+        article_view_count,
+      </if>
+      <if test="articleCommentCount != null" >
+        article_comment_count,
+      </if>
+      <if test="articleCreateTime != null" >
+        article_create_time,
+      </if>
+      <if test="articleUpdateTime != null" >
+        article_update_time,
+      </if>
+      <if test="articleSummary != null" >
+        article_summary,
+      </if>
+      <if test="articleCategory != null" >
+        article_category,
+      </if>
+      <if test="articleStatus != null" >
+        article_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="articleUserId != null" >
+        #{articleUserId,jdbcType=INTEGER},
+      </if>
+      <if test="articleTitle != null" >
+        #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="articleContent != null" >
+        #{articleContent,jdbcType=VARCHAR},
+      </if>
+      <if test="articleViewCount != null" >
+        #{articleViewCount,jdbcType=INTEGER},
+      </if>
+      <if test="articleCommentCount != null" >
+        #{articleCommentCount,jdbcType=INTEGER},
+      </if>
+      <if test="articleCreateTime != null" >
+        #{articleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="articleUpdateTime != null" >
+        #{articleUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="articleSummary != null" >
+        #{articleSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="articleCategory != null" >
+        #{articleCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="articleStatus != null" >
+        #{articleStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.Ajar.Blog.Pojo.ArticleExample" resultType="java.lang.Integer" >
+    select count(*) from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update article
+    <set >
+      <if test="record.articleId != null" >
+        article_id = #{record.articleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.articleUserId != null" >
+        article_user_id = #{record.articleUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.articleTitle != null" >
+        article_title = #{record.articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.articleContent != null" >
+        article_content = #{record.articleContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.articleViewCount != null" >
+        article_view_count = #{record.articleViewCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.articleCommentCount != null" >
+        article_comment_count = #{record.articleCommentCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.articleCreateTime != null" >
+        article_create_time = #{record.articleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.articleUpdateTime != null" >
+        article_update_time = #{record.articleUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.articleSummary != null" >
+        article_summary = #{record.articleSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.articleCategory != null" >
+        article_category = #{record.articleCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.articleStatus != null" >
+        article_status = #{record.articleStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update article
+    set article_id = #{record.articleId,jdbcType=INTEGER},
+      article_user_id = #{record.articleUserId,jdbcType=INTEGER},
+      article_title = #{record.articleTitle,jdbcType=VARCHAR},
+      article_content = #{record.articleContent,jdbcType=VARCHAR},
+      article_view_count = #{record.articleViewCount,jdbcType=INTEGER},
+      article_comment_count = #{record.articleCommentCount,jdbcType=INTEGER},
+      article_create_time = #{record.articleCreateTime,jdbcType=TIMESTAMP},
+      article_update_time = #{record.articleUpdateTime,jdbcType=TIMESTAMP},
+      article_summary = #{record.articleSummary,jdbcType=VARCHAR},
+      article_category = #{record.articleCategory,jdbcType=VARCHAR},
+      article_status = #{record.articleStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Ajar.Blog.Pojo.Article" >
+    update article
+    <set >
+      <if test="articleUserId != null" >
+        article_user_id = #{articleUserId,jdbcType=INTEGER},
+      </if>
+      <if test="articleTitle != null" >
+        article_title = #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="articleContent != null" >
+        article_content = #{articleContent,jdbcType=VARCHAR},
+      </if>
+      <if test="articleViewCount != null" >
+        article_view_count = #{articleViewCount,jdbcType=INTEGER},
+      </if>
+      <if test="articleCommentCount != null" >
+        article_comment_count = #{articleCommentCount,jdbcType=INTEGER},
+      </if>
+      <if test="articleCreateTime != null" >
+        article_create_time = #{articleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="articleUpdateTime != null" >
+        article_update_time = #{articleUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="articleSummary != null" >
+        article_summary = #{articleSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="articleCategory != null" >
+        article_category = #{articleCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="articleStatus != null" >
+        article_status = #{articleStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Ajar.Blog.Pojo.Article" >
+    update article
+    set article_user_id = #{articleUserId,jdbcType=INTEGER},
+      article_title = #{articleTitle,jdbcType=VARCHAR},
+      article_content = #{articleContent,jdbcType=VARCHAR},
+      article_view_count = #{articleViewCount,jdbcType=INTEGER},
+      article_comment_count = #{articleCommentCount,jdbcType=INTEGER},
+      article_create_time = #{articleCreateTime,jdbcType=TIMESTAMP},
+      article_update_time = #{articleUpdateTime,jdbcType=TIMESTAMP},
+      article_summary = #{articleSummary,jdbcType=VARCHAR},
+      article_category = #{articleCategory,jdbcType=VARCHAR},
+      article_status = #{articleStatus,jdbcType=INTEGER}
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+</mapper>

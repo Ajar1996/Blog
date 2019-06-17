@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Ajar.Blog.Dao.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.Ajar.Blog.Pojo.Comment" >
+    <constructor >
+      <idArg column="comment_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="comment_article_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="comment_author_name" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="comment_content" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="comment_create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="comment_author_img" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    comment_id, comment_article_id, comment_author_name, comment_content, comment_create_time, 
+    comment_author_img
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.Ajar.Blog.Pojo.CommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.Ajar.Blog.Pojo.CommentExample" >
+    delete from comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.Ajar.Blog.Pojo.Comment" >
+    insert into comment (comment_id, comment_article_id, comment_author_name, 
+      comment_content, comment_create_time, comment_author_img
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{commentArticleId,jdbcType=INTEGER}, #{commentAuthorName,jdbcType=INTEGER}, 
+      #{commentContent,jdbcType=VARCHAR}, #{commentCreateTime,jdbcType=TIMESTAMP}, #{commentAuthorImg,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.Ajar.Blog.Pojo.Comment" >
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        comment_id,
+      </if>
+      <if test="commentArticleId != null" >
+        comment_article_id,
+      </if>
+      <if test="commentAuthorName != null" >
+        comment_author_name,
+      </if>
+      <if test="commentContent != null" >
+        comment_content,
+      </if>
+      <if test="commentCreateTime != null" >
+        comment_create_time,
+      </if>
+      <if test="commentAuthorImg != null" >
+        comment_author_img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="commentArticleId != null" >
+        #{commentArticleId,jdbcType=INTEGER},
+      </if>
+      <if test="commentAuthorName != null" >
+        #{commentAuthorName,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null" >
+        #{commentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCreateTime != null" >
+        #{commentCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentAuthorImg != null" >
+        #{commentAuthorImg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.Ajar.Blog.Pojo.CommentExample" resultType="java.lang.Integer" >
+    select count(*) from comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update comment
+    <set >
+      <if test="record.commentId != null" >
+        comment_id = #{record.commentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentArticleId != null" >
+        comment_article_id = #{record.commentArticleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentAuthorName != null" >
+        comment_author_name = #{record.commentAuthorName,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentContent != null" >
+        comment_content = #{record.commentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentCreateTime != null" >
+        comment_create_time = #{record.commentCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.commentAuthorImg != null" >
+        comment_author_img = #{record.commentAuthorImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update comment
+    set comment_id = #{record.commentId,jdbcType=INTEGER},
+      comment_article_id = #{record.commentArticleId,jdbcType=INTEGER},
+      comment_author_name = #{record.commentAuthorName,jdbcType=INTEGER},
+      comment_content = #{record.commentContent,jdbcType=VARCHAR},
+      comment_create_time = #{record.commentCreateTime,jdbcType=TIMESTAMP},
+      comment_author_img = #{record.commentAuthorImg,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Ajar.Blog.Pojo.Comment" >
+    update comment
+    <set >
+      <if test="commentArticleId != null" >
+        comment_article_id = #{commentArticleId,jdbcType=INTEGER},
+      </if>
+      <if test="commentAuthorName != null" >
+        comment_author_name = #{commentAuthorName,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null" >
+        comment_content = #{commentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCreateTime != null" >
+        comment_create_time = #{commentCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentAuthorImg != null" >
+        comment_author_img = #{commentAuthorImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Ajar.Blog.Pojo.Comment" >
+    update comment
+    set comment_article_id = #{commentArticleId,jdbcType=INTEGER},
+      comment_author_name = #{commentAuthorName,jdbcType=INTEGER},
+      comment_content = #{commentContent,jdbcType=VARCHAR},
+      comment_create_time = #{commentCreateTime,jdbcType=TIMESTAMP},
+      comment_author_img = #{commentAuthorImg,jdbcType=VARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+</mapper>

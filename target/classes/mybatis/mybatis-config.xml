@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 全局配置 -->
+    <settings>
+    <!--允许 JDBC 支持自动生成主键-->
+    <setting value="false" name="useGeneratedKeys"/>
+
+</settings>
+
+
+    <plugins>
+
+
+    <plugin interceptor="com.github.pagehelper.PageInterceptor">
+
+    <!--<property name="dialect" value="mysql"/>-->
+
+    <property value="false" name="offsetAsPageNum"/>
+
+    <property value="true" name="rowBoundsWithCount"/>
+
+    <property value="true" name="pageSizeZero"/>
+
+    <property value="true" name="reasonable"/>
+
+    <property value="false" name="supportMethodsArguments"/>
+
+
+</plugin>
+
+</plugins>
+
+</configuration>
