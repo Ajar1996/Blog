@@ -11,7 +11,7 @@
 ## 效果预览
 ---
 
-预览地址：interesting1996.shop
+预览地址：https://interesting1996.shop
 
 
 
